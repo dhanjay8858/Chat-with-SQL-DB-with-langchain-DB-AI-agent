@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # 🗃️ Chat with SQL Database using LangChain
 
@@ -225,4 +225,4 @@ This project is open source and available under the [MIT License](LICENSE).
 Made with ❤️ using LangChain & Streamlit
 
 </div>
-]]>
+
