@@ -1,61 +1,93 @@
-<![CDATA[<div align="center">
+<div align="center">
 
-# 🗃️ Chat with SQL Database using LangChain
+# 🗃️ AI Database Assistant (Production Edition)
 
-### _Ask questions in plain English — get answers from your database instantly._
+### _A natural language AI interface for SQL databases combining ChatGPT, DBeaver, and MySQL Workbench._
 
 [![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)](https://langchain.com)
 [![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logo=groq&logoColor=white)](https://groq.com)
+[![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com)
 
 </div>
 
 ---
 
-## 📌 About
+## 📌 Overview
 
-**Chat with SQL DB** is an AI-powered conversational interface that lets you query SQL databases using natural language. Built with **LangChain's SQL Agent** and powered by **Groq's Llama 3.3 70B** model, it translates your questions into SQL, executes them, and returns human-readable answers — no SQL knowledge required.
+**AI Database Assistant** is an enterprise-grade natural language interface for SQL databases. Built with a modular clean architecture using **LangChain SQL Agent**, **Groq Llama 3.3 70B** (`llama-3.3-70b-versatile`), **SQLAlchemy**, and **Plotly**, it converts plain English prompts into optimized SQL queries, executes them safely, and delivers interactive visual analytics.
 
-It supports both **SQLite** (local) and **MySQL** (remote) databases out of the box.
+Default LLM: **`llama-3.3-70b-versatile`** (Groq's top tool-calling model designed specifically for LangChain SQL Agents).
 
 ---
 
-## ✨ Features
+## ✨ Enterprise Capabilities (16 Phases Implemented)
 
 | Feature | Description |
 | :--- | :--- |
-| 💬 **Natural Language Querying** | Ask questions in plain English and get accurate database responses |
-| 🔄 **Dual Database Support** | Switch between a local SQLite database or connect to a remote MySQL server |
-| ⚡ **Groq-Powered LLM** | Ultra-fast inference using Groq's Llama 3.3 70B Versatile model |
-| 🤖 **LangChain SQL Agent** | Autonomous agent that reasons, generates SQL, and interprets results |
-| 🔐 **Secure API Key Input** | API key entered via sidebar with password masking |
-| 💾 **Chat History** | Full conversation history with clear message option |
-| 📡 **Streaming Responses** | Real-time streaming with Streamlit callback handler |
+| 🤖 **Flagship Tool-Calling Model** | Powered by `llama-3.3-70b-versatile` on Groq with custom error recovery for zero parsing failures |
+| 🗂️ **Database Explorer** | Full schema inspection — table columns, data types, primary/foreign keys, indexes, and live table previews |
+| ✍️ **Natural Language CRUD** | `SELECT`, `INSERT`, `UPDATE`, and `DELETE` operations generated dynamically from natural language |
+| 🛡️ **Safe Execution Layer** | Risk analysis rating (`LOW` to `CRITICAL`), SQL preview cards, impact explanations, and confirmation dialogs |
+| 💻 **SQL Execution Panel** | Execution timing (ms), rows returned/affected, status badges, and syntax-highlighted SQL code blocks |
+| 📖 **AI SQL Explainer** | 4-part breakdown: Purpose, Clause-by-Clause, Performance & Complexity (`O(N)` vs `O(log N)`), and Index Optimizations |
+| 📈 **Database Analytics & Quality** | Missing values (NULL) audit, duplicate record scans, and statistical summaries (Min, Max, Avg, Median) |
+| 🔍 **Interactive Data Grid** | Real-time multi-column search, pagination, click-to-sort, column resizing, and row count indicators |
+| 📊 **Plotly Visualizations** | Automated Bar Charts, Pie Charts, Line Charts, Scatter Plots, Histograms, Box Plots, and Heatmaps |
+| 📜 **Persistent Query History** | File-backed JSON history (`query_history.json`) with search, 1-click query re-run, and log deletion |
+| 📥 **Multi-Format Exports** | 1-Click exports to **CSV (.csv)**, **Excel (.xlsx)**, **JSON (.json)**, and styled **PDF (.pdf)** reports |
+| 🧠 **AI Dataset Insights** | Automatic IQR outlier detection (`1.5 * IQR`), statistical metrics, and natural language distribution summaries |
+| 🔐 **Access Control & Security** | `🔒 Read Only Mode (Analyst)` vs `👤 Admin Mode (Full Access)` with strict blocking of `DROP TABLE`, `TRUNCATE`, and mass mutations |
+| ⚡ **Performance Optimization** | SQLAlchemy connection pooling (`pool_size=10`, `pool_pre_ping=True`), sub-millisecond schema metadata caching (`0.19 ms`), and auto-invalidation |
+| 🎨 **Premium Dark UI/UX** | Custom glassmorphism design system (`styles.py`), Google Fonts (`Inter` / `JetBrains Mono`), gradient tab highlights |
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Modular Project Architecture
 
 ```
-┌─────────────────────────────────────────────────┐
-│                  Streamlit UI                    │
-│         (Chat Interface + Sidebar)               │
-└──────────────────────┬──────────────────────────┘
-                       │  User Query (Natural Language)
-                       ▼
-┌─────────────────────────────────────────────────┐
-│              LangChain SQL Agent                 │
-│        (Zero-Shot ReAct Description)             │
-└──────────────────────┬──────────────────────────┘
-                       │  Generated SQL
-                       ▼
-          ┌────────────┴────────────┐
-          │                         │
-   ┌──────▼──────┐          ┌──────▼──────┐
-   │   SQLite    │          │    MySQL     │
-   │ (student.db)│          │  (Remote)    │
-   └─────────────┘          └─────────────┘
+Chat-with-SQL-DB-with-langchain-DB-AI-agent/
+├── app.py                 # Main Streamlit application entry point
+├── config/                # Settings & security configuration
+│   ├── settings.py        # System constants & Groq LLM factory (llama-3.3-70b-versatile default)
+│   └── security.py        # Security modes & policy engine (Read-Only vs Admin)
+├── database/              # Database connection & inspection layer
+│   ├── connection.py      # SQLAlchemy engine factory with connection pooling
+│   ├── inspector.py       # Schema introspection & metadata caching
+│   └── crud.py            # Natural language CRUD helper functions
+├── agents/                # LangChain SQL Agent orchestration
+│   └── sql_agent.py       # ReAct SQL agent with custom parsing error recovery
+├── services/              # Business logic & execution services
+│   ├── sql_executor.py    # Centralized SQL execution engine
+│   ├── safety.py          # Safety middleware & confirmation evaluator
+│   ├── sql_explainer.py   # AI query explainer & AST parser
+│   └── ai_insights.py     # Database analytics & IQR outlier detection
+├── ui/                    # Streamlit UI layout & components
+│   ├── sidebar.py         # DB connection, credentials & security mode selector
+│   ├── chat.py            # Conversational chat loop & confirmation card UI
+│   ├── explorer.py        # Database Explorer panel & schema viewer
+│   ├── preview.py         # Live table preview component
+│   ├── sql_panel.py       # SQL execution preview panel with metrics
+│   ├── data_grid.py       # Interactive searchable/paginated data grid
+│   ├── history_ui.py      # Query history manager tab
+│   └── styles.py          # Custom CSS design system & Google Fonts
+├── charts/                # Plotly data visualization engine
+│   └── visualizer.py      # Auto chart recommendation & Plotly renderer
+├── exports/               # Multi-format report export handlers
+│   ├── csv_export.py      # CSV export handler
+│   ├── excel_export.py    # Excel (.xlsx) export handler
+│   ├── json_export.py     # JSON export handler
+│   └── pdf_export.py      # Styled PDF report generator
+├── history/               # Persistent query history storage
+│   └── query_history.py   # JSON file-backed logger
+├── utils/                 # Helpers & validators
+│   ├── logger.py          # Centralized logging module
+│   └── validators.py      # SQL risk level analyzer
+├── student.db             # Pre-built sample SQLite database
+├── .gitignore             # Git ignore rules hiding .env, .venv, etc.
+├── requirements.txt       # Python package dependencies
+└── README.md              # Project documentation
 ```
 
 ---
@@ -65,11 +97,11 @@ It supports both **SQLite** (local) and **MySQL** (remote) databases out of the 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/chat-with-sql-db-langchain.git
-cd chat-with-sql-db-langchain
+git clone https://github.com/dhanjay8858/Chat-with-SQL-DB-with-langchain-DB-AI-agent.git
+cd Chat-with-SQL-DB-with-langchain-DB-AI-agent
 ```
 
-### 2. Create a Virtual Environment
+### 2. Create & Activate Virtual Environment
 
 ```bash
 python -m venv .venv
@@ -87,7 +119,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Set Up Environment Variables
+### 4. Configure Environment Variables (Hidden in `.gitignore`)
 
 Create a `.env` file in the project root:
 
@@ -95,134 +127,48 @@ Create a `.env` file in the project root:
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-> 🔑 Get your free API key at [console.groq.com](https://console.groq.com)
+> 🔑 Get your API key at [console.groq.com](https://console.groq.com). Alternatively, enter your Groq API Key directly in the app sidebar!
 
-### 5. Initialize the SQLite Database (Optional)
-
-If you want to recreate the sample `student.db`:
-
-```bash
-python sqlite.py
-```
-
-### 6. Run the Application
+### 5. Run the Application
 
 ```bash
 streamlit run app.py
 ```
 
-The app will open at **http://localhost:8501** 🎉
-
----
-
-## 🗂️ Project Structure
-
-```
-chat-with-sql-db-langchain/
-│
-├── app.py              # Main Streamlit application with LangChain SQL Agent
-├── sqlite.py           # Script to create and populate the sample SQLite database
-├── student.db          # Pre-built SQLite database with sample student records
-├── requirements.txt    # Python dependencies
-├── .env                # Environment variables (not tracked by git)
-├── .gitignore          # Git ignore rules
-└── README.md           # Project documentation
-```
+Open **http://localhost:8501** in your browser 🎉
 
 ---
 
 ## 💡 Example Queries
 
-Once the app is running, try asking:
-
-| Query | What it does |
-| :--- | :--- |
-| `Show me all students` | Returns all records from the STUDENT table |
-| `Who scored the highest marks?` | Finds the top scorer |
-| `How many students are in section A?` | Counts students filtered by section |
-| `What is the average marks of all students?` | Calculates the average |
-| `List students who scored above 90` | Filters by marks > 90 |
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend:** [Streamlit](https://streamlit.io) — interactive web UI
-- **LLM:** [Groq](https://groq.com) — Llama 3.3 70B Versatile (ultra-fast inference)
-- **Framework:** [LangChain](https://langchain.com) — SQL Agent with ReAct reasoning
-- **Database:** SQLite (local) / MySQL (remote via SQLAlchemy)
-- **ORM:** [SQLAlchemy](https://sqlalchemy.org) — database engine abstraction
+| Query Type | Example Prompt | Action |
+| :--- | :--- | :--- |
+| **SELECT** | `"Show all students"` | Displays interactive data grid with search, pagination, exports, & charts |
+| **ANALYTICS** | `"What is the average marks of all students?"` | Returns calculated mean metric (`90.17`) |
+| **TOP SCORER** | `"Who scored the highest marks?"` | Returns top performer (`ANSHU` with `99` marks) |
+| **INSERT** | `"Add a student named Rahul in AI class, section A, with 85 marks"` | Previews SQL, evaluates risk, presents confirmation card |
+| **UPDATE** | `"Update MARKS of RAM to 95"` | Previews `UPDATE STUDENT SET MARKS = 95 WHERE NAME = 'RAM'` for approval |
+| **DELETE** | `"Delete student named Rahul"` | Previews `DELETE FROM STUDENT WHERE NAME = 'Rahul'` for approval |
 
 ---
 
-## 📋 Sample Database Schema
+## 🛡️ Security Modes
 
-The included `student.db` contains the following table:
-
-```sql
-CREATE TABLE STUDENT (
-    NAME    VARCHAR(25),
-    CLASS   VARCHAR(25),
-    SECTION VARCHAR(25),
-    MARKS   INT
-);
-```
-
-**Sample Records:**
-
-| NAME  | CLASS            | SECTION | MARKS |
-| :---- | :--------------- | :-----: | :---: |
-| AMIT  | Data Science     |    C    |  98   |
-| RAM   | Data Analytic    |    A    |  92   |
-| SUMIT | Computer Science |    B    |  96   |
-| AMAN  | AI               |    A    |  88   |
-| KAMAL | GENAI            |    C    |  68   |
-| ANSHU | ML               |    B    |  99   |
+- **🔒 Read Only Mode (Analyst)**: Blocks all `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, and `TRUNCATE` operations.
+- **👤 Admin Mode (Full Access)**: Enables write operations with confirmation card middleware. Strictly blocks dangerous DDL (`DROP TABLE`, `TRUNCATE`) and mass `DELETE`/`UPDATE` queries without `WHERE` clauses.
 
 ---
 
-## ⚙️ MySQL Configuration
+## 🔒 Security Note (Git Ignore)
 
-To connect to a MySQL database instead of SQLite:
-
-1. Select **"Connect to MySQL Database"** in the sidebar
-2. Enter your MySQL credentials:
-   - **Hostname** (e.g., `localhost`)
-   - **Username** (e.g., `root`)
-   - **Password**
-   - **Database Name**
-3. The agent will automatically connect and allow you to query your MySQL database
-
-> **Note:** Make sure you have the `mysql-connector-python` package installed:
-> ```bash
-> pip install mysql-connector-python
-> ```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+The `.gitignore` file automatically excludes sensitive files:
+- `.env` & `.env.local` *(API Keys)*
+- `.venv/` *(Virtual Environment)*
+- `query_history.json` *(Local Query History)*
+- `__pycache__/` *(Python Bytecode)*
 
 ---
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-<div align="center">
-
-**⭐ Star this repo if you found it useful!**
-
-Made with ❤️ using LangChain & Streamlit
-
-</div>
-]]>
+This project is open-source and licensed under the [MIT License](LICENSE).

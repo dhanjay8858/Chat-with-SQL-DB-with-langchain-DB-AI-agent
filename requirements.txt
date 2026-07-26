@@ -9,3 +9,6 @@ langchain-experimental==0.3.4
 sqlalchemy
 
 python-dotenv
+plotly
+openpyxl
+fpdf2
