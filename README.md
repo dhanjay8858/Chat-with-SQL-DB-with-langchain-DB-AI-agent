@@ -171,4 +171,19 @@ The `.gitignore` file automatically excludes sensitive files:
 
 ## 📄 License
 
+<<<<<<< HEAD
 This project is open-source and licensed under the [MIT License](LICENSE).
+=======
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**⭐ Star this repo if you found it useful!**
+
+Made with ❤️ using LangChain & Streamlit
+
+</div>
+
+>>>>>>> 2ef4a2227dc89ba3b56f35336ea01fd98b088cb4
